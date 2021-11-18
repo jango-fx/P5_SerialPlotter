@@ -1,48 +1,124 @@
 import processing.serial.*;
 import controlP5.*;
 
-
 ControlP5 cp5;
 Chart plotter;
+ScrollableList baudDropdown;
+ScrollableList portDropdown;
+
+int windowWidth, windowHeight;
 
 Serial port;
-@ControlElement (x=10, y=10, properties = { "value=5.0", "min=-255", "max=255", "type=numberbox"})
+int baudRate=115200;
+String[] baudRates = {"300", "600", "1200", "2400", "4800", "9600", "14400", "19200", "28800", "31250", "38400", "57600", "115200"};
+
+@ControlElement (x=10, y=50, properties = {"width=70", "value=#", "isLock=true"})
+  public String lineHeaderPattern="#";
+@ControlElement (x=10, y=90, properties = {"width=70", "value=, ;"})
+  public String valueNamePattern=", ;:";
+@ControlElement (x=10, y=150, properties = { "value=5.0", "min=-255", "max=255", "type=numberbox"})
   public float maxVal;
-@ControlElement (x=10, y=50, properties = { "value=-1.0", "min=-255", "max=255", "type=numberbox"})
+@ControlElement (x=10, y=190, properties = { "value=-1.0", "min=-255", "max=255", "type=numberbox"})
   public float minVal;
 
-public void maxVal()
-{
-  plotter.setRange(minVal, maxVal);
-}
-public void minVal()
-{
-  plotter.setRange(minVal, maxVal);
-  println(minVal+" / "+maxVal);
-}
+/* // DROPDOWN ANNOTATION EXAMPLE
+@ControlElement (properties = { "width=200", "type=dropdown", "items=hello,world,how,is it,going"}, x=100, y=150, label="Track")
+ public void setTrack(int val) {
+ println("track : " + val);
+ }
+*/
 
 public void settings() {
   size(600, 400);
 }
 
 public void setup () {
-  printArray(Serial.list());
-  port = new Serial(this, Serial.list()[Serial.list().length-1], 115200);  //
   cp5 = new ControlP5(this);
   cp5.addControllersFor(this);
+  plotter = cp5.addChart("Serial Plotter");
+  portDropdown = cp5.addScrollableList("serialPorts");
+  baudDropdown = cp5.addScrollableList("baudRate");
+  // TODO: implement line headers
+  cp5.getController("lineHeaderPattern").setColorForeground(color(255,50));
+  cp5.getController("lineHeaderPattern").setColorBackground(color(255,20));
+  cp5.getController("lineHeaderPattern").setColorLabel(color(50,50));
+  cp5.getController("lineHeaderPattern").setColorValue(color(50,50));
+  cp5.getController("lineHeaderPattern").lock(); 
 
-  plotter = cp5.addChart("Serial Plotter")
+  updateUI();
+
+  surface.setResizable(true);
+  registerMethod("pre", this);
+
+  printArray(Serial.list());
+  //try {
+  //  port = new Serial(this, Serial.list()[7], baudRate);  //
+  //}
+  //catch(Exception e)
+  //{
+  //  println(e);
+  //}
+}
+
+void updateUI()
+{
+  baudDropdown
+    .setPosition(10, 10)
+    .setSize(200, 100)
+    .setItems(java.util.Arrays.asList(baudRates))
+    .setValue(12)
+    ;
+
+  portDropdown
+    .setPosition(10, 25)
+    .setSize(200, 100)
+    .setBarHeight(15)
+    //.setItemHeight(20)
+    .setItems(java.util.Arrays.asList(Serial.list()))
+    .setValue(Serial.list().length-1)
+    .close()
+    ;
+
+  plotter
     .setPosition(110, 10)
-    .setSize(480, 380)
+    .setSize(width-120, height-20)
     .setRange(minVal, maxVal)
     .setView(Chart.LINE)
     .setStrokeWeight(1.5f)
     .setColorCaptionLabel(color(40))
     .setColorBackground(color(120, 200, 255, 50))
     ;
+
+  //delimiter = ", ;";
 }
+
+void pre() {
+  if (windowWidth != width || windowHeight != height) {
+    // Sketch window has resized
+    windowWidth = width;
+    windowHeight = height;
+    updateUI();
+  }
+}
+
 public void draw () {
   background(0);
+}
+
+void serialPorts(int n)
+{
+  try {
+    port = new Serial(this, Serial.list()[n], baudRate);
+  }
+  catch(Exception e)
+  {
+    println(e);
+  }
+}
+
+void baudRate(int n)
+{
+  baudRate = int(baudRates[n]);
 }
 
 public void serialEvent (Serial thePort) {
@@ -50,7 +126,8 @@ public void serialEvent (Serial thePort) {
 
   if (inString != null) {
     inString = trim(inString);              // trim off whitespaces.
-    String[] subStrings = inString.split("\\s|;|,");                 // TODO: search for ':' as name-markes
+    String[] subStrings = splitTokens(inString, valueNamePattern);
+    //String[] subStrings = inString.split("\\s|;|,");                 // TODO: search for ':' as name-markes
 
     for (int i = 0; i < subStrings.length; i++)
     {
