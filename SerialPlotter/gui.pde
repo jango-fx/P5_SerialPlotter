@@ -58,7 +58,7 @@ void createGUI()
     ;
   dataSets = cp5.addScrollableList("dataSets")
     .setPosition(10, 250)
-    .setSize(90, 100)
+    .setSize(90, 150)
     ;
 }
 
