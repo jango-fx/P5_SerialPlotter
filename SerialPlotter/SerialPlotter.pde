@@ -13,16 +13,16 @@ Serial port;
 int baudRate=115200;
 String[] baudRates = {"300", "600", "1200", "2400", "4800", "9600", "14400", "19200", "28800", "31250", "38400", "57600", "115200"};
 
-public String lineHeaderPattern="#";
+public String lineHeaderPattern=".*(?=:)";
 Textfield lineHeaderPatternField;
-@ControlElement (x=10, y=90, properties = {"width=70", "value=, ;\t"})
-  public String valueNamePattern=", ;:\t";
-Textfield valueNamePatternField;
+public String lineDataNamePattern="";
+Textfield lineDataNamePatternField;
+public String lineDataPattern="(?!#|,|$)-?\\d.\\d{3}";
+Textfield lineDataPatternField;
 
-@ControlElement (x=10, y=150, properties = { "value=5.0", "min=-255", "max=255", "type=numberbox"})
-  public float maxVal;
-@ControlElement (x=10, y=190, properties = { "value=-1.0", "min=-255", "max=255", "type=numberbox"})
-  public float minVal;
+public float maxVal=5.0;
+public float minVal=-1.0;
+public int dataBuffer=100;
 
 public void settings() {
   size(600, 400);
@@ -39,7 +39,6 @@ public void setup () {
 
 void pre() {
   if (windowWidth != width || windowHeight != height) {
-    // Sketch window has resized
     windowWidth = width;
     windowHeight = height;
     updateGUI();
@@ -47,40 +46,52 @@ void pre() {
 }
 
 public void draw () {
-  println("minVal: "+minVal);
   background(0);
+  //float res = cp5.get(Chart.class, "Serial Plotter").getResolution();
+  //println(res);
+}
+
+void parseSerial(String input)
+{
+  try {
+    String lineHeader = matchRegex(input, lineHeaderPattern)[0];
+    String[] lineData = matchRegex(input, lineDataPattern);
+    String[] dataNames = matchRegex(input, lineDataNamePattern);
+    for (int i = 0; i < lineData.length; ++i)
+    {
+      String dataName = "";
+      if (lineData.length == dataNames.length)
+      {
+        dataName = lineHeader+"/"+dataNames[i];
+      } else
+      {
+        dataName = lineHeader+"/"+i;
+      }
+      ChartDataSet set = plotter.getDataSet(dataName);
+      if (set != null)
+      {
+        plotter.push(dataName, parseFloat(lineData[i]));
+      } else
+      {
+        plotter.addDataSet(dataName);
+        dataSets.addItem(dataName, 0);
+        plotter.setData(dataName, new float[dataBuffer]);
+        plotter.setColors(dataName, getRainbowColor(i));
+        plotter.push(dataName, parseFloat(lineData[i]));
+      }
+    }
+  }
+  catch (Exception e) {
+    println(e);
+  }
 }
 
 public void serialEvent (Serial thePort) {
   String inString = thePort.readStringUntil('\n');
 
   if (inString != null) {
-    inString = trim(inString);              // trim off whitespaces.
-    String[] subStrings = splitTokens(inString, valueNamePattern);
-    //String[] subStrings = inString.split("\\s|;|,");                 // TODO: search for ':' as name-markes
-
-    for (int i = 0; i < subStrings.length; i++)
-    {
-      try {
-        ChartDataSet set = plotter.getDataSet(Integer.toString(i));
-        if (set != null)
-        {
-          plotter.push(Integer.toString(i), PApplet.parseFloat(subStrings[i]));
-        } else
-        {
-          plotter.addDataSet(Integer.toString(i));
-          dataSets.addItem(Integer.toString(i), 0);
-          plotter.setData(Integer.toString(i), new float[100]);
-          plotter.setColors(Integer.toString(i), getRainbowColor(i));
-          plotter.push(Integer.toString(i), PApplet.parseFloat(subStrings[i]));
-        }
-      }
-      catch (Exception e) {
-        println(e);
-      }
-    }
-
-    println(">"+inString+"<");
-    printArray(subStrings);
+    inString = trim(inString);
+    parseSerial(inString);
+    //println("[Serial]: "+inString+"");
   }
 }
