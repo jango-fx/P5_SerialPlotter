@@ -26,6 +26,15 @@ void createGUI()
     .setPosition(10, 50)
     .setSize(90, 15)
     .setText(lineHeaderPattern)
+  cp5.addToggle("verbose")
+    .setPosition(10, 45)
+    .setSize(40,15)
+    .setValue(verbose)
+    ;
+    cp5.addToggle("parallel")
+    .setPosition(55, 45)
+    .setSize(40,15)
+    .setValue(parallel)
     ;
   lineDataNamePatternField = cp5.addTextfield("lineDataNamePattern")
     .setPosition(10, 85)
@@ -114,10 +123,12 @@ void setSerialPort(int n)
 
 void controlEvent(ControlEvent theEvent) {
   try {
-    if (  theEvent.isFrom(cp5.getController("dataBuffer")) || theEvent.isFrom(cp5.getController("minVal")) || theEvent.isFrom(cp5.getController("maxVal")) )
-    {
-      updateGUI();
-    }
+          updateGUI();
+          
+    //if (  theEvent.isFrom(cp5.getController("dataBuffer")) || theEvent.isFrom(cp5.getController("minVal")) || theEvent.isFrom(cp5.getController("maxVal")) )
+    //{
+    //  updateGUI();
+    //}
   }
   catch(Exception e) {
     println(e);

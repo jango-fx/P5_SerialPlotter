@@ -1,15 +1,19 @@
 import processing.serial.*;
 import controlP5.*;
 
+int windowWidth, windowHeight;
+public boolean verbose = false;
+
+
 ControlP5 cp5;
 Chart plotter;
 ScrollableList baudDropdown;
 ScrollableList portDropdown;
 ScrollableList dataSets;
 
-int windowWidth, windowHeight;
 
 Serial port;
+public boolean parallel = false;
 int baudRate=115200;
 String[] baudRates = {"300", "600", "1200", "2400", "4800", "9600", "14400", "19200", "28800", "31250", "38400", "57600", "115200"};
 
@@ -55,6 +59,22 @@ public void draw () {
   background(0);
   //float res = cp5.get(Chart.class, "Serial Plotter").getResolution();
   //println(res);
+
+  if ( !parallel && port != null && port.available() > 0) {
+    checkSerial();
+  }
+}
+
+void checkSerial()
+{
+  String inString = port.readStringUntil('\n');
+
+  if (inString != null) {
+    inString = trim(inString);
+    parseSerial(inString);
+    if (verbose)
+      println("[Serial]: "+inString+"");
+  }
 }
 
 void parseSerial(String input)
@@ -93,12 +113,9 @@ void parseSerial(String input)
   }
 }
 
-public void serialEvent (Serial thePort) {
-  String inString = thePort.readStringUntil('\n');
 
-  if (inString != null) {
-    inString = trim(inString);
-    parseSerial(inString);
-    println("[Serial]: "+inString+"");
-  }
+
+public void serialEvent (Serial thePort) {
+  if (parallel)
+    checkSerial();
 }
