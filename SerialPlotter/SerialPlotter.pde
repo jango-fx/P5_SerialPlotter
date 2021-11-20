@@ -36,6 +36,9 @@ Textfield dataNamePatternField;
 public String lineDataPattern = "-?\\d+\\.?\\d*";
 Textfield lineDataPatternField;
 
+Textlabel zeroAxis;
+Textlabel[] axisLabels = new Textlabel[7];
+
 public float maxVal=2.5;
 public float minVal=-2.0;
 public int dataBuffer=1000;

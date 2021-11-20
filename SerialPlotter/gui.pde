@@ -24,12 +24,12 @@ void createGUI()
     ;
   cp5.addToggle("verbose")
     .setPosition(10, 45)
-    .setSize(40,15)
+    .setSize(40, 15)
     .setValue(verbose)
     ;
-    cp5.addToggle("parallel")
+  cp5.addToggle("parallel")
     .setPosition(55, 45)
-    .setSize(40,15)
+    .setSize(40, 15)
     .setValue(parallel)
     ;
   lineHeadPatternField = cp5.addTextfield("lineHeadPattern")
@@ -76,11 +76,15 @@ void createGUI()
     .setBarVisible(false)
     .lock()
     ;
-    cp5.addBang("saveData")
+  cp5.addBang("saveData")
     .setPosition(140, 235)
-    .setSize(40,15)
+    .setSize(40, 15)
     ;
-    
+
+  zeroAxis = cp5.addTextlabel("zeroAxis");
+
+  for (int i = 0; i < axisLabels.length; i++)
+    axisLabels[i] = cp5.addTextlabel("axisLabel"+i);
 }
 
 void saveData()
@@ -107,6 +111,20 @@ void updateGUI()
 
   dataSets.open();
   //dataSets.setBarVisible(false);
+
+  zeroAxis
+    .setText("< 0.00 >")
+    .setPosition(195, map(0, minVal, maxVal, height-15, 10))
+    .setVisible( !(minVal > 0 || maxVal < 0) )
+    ;
+
+  for (int i = 0; i < axisLabels.length; i++)
+  {
+    axisLabels[i]
+      .setText("< "+df.format(map(i, 0, axisLabels.length-1, minVal, maxVal))+" >")
+      .setPosition(195, map(i, 0, axisLabels.length-1, height-15, 10))
+      ;
+  }
 }
 
 void initGUI()
@@ -142,8 +160,8 @@ void setSerialPort(int n)
 
 void controlEvent(ControlEvent theEvent) {
   try {
-          updateGUI();
-          
+    updateGUI();
+
     //if (  theEvent.isFrom(cp5.getController("dataBuffer")) || theEvent.isFrom(cp5.getController("minVal")) || theEvent.isFrom(cp5.getController("maxVal")) )
     //{
     //  updateGUI();

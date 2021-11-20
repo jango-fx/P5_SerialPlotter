@@ -40,3 +40,5 @@ void saveChartDataToFile(Chart theChart, String fileName)
 String getTime() {
   return new java.text.SimpleDateFormat("yyMMdd-HHmmss", java.util.Locale.GERMANY).format(new java.util.Date());
 }
+
+private static final java.text.DecimalFormat df = new java.text.DecimalFormat("0.00");
