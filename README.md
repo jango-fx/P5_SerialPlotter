@@ -5,8 +5,8 @@ for  debugging and logging
 
 * [x] manual scaling
 * [x] regex filter for various data formats
+* [x] save data to file
 * [ ] auto scaling
-* [ ] recorder
 
 made with [Processing](https://github.com/processing/processing) 
 
