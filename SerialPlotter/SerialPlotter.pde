@@ -51,7 +51,10 @@ public void setup () {
 
   surface.setResizable(true);
   registerMethod("pre", this);
+
+  println(getTime());
 }
+
 
 void pre() {
   if (windowWidth != width || windowHeight != height) {
@@ -67,6 +70,10 @@ public void draw () {
   if ( !parallel && port != null && port.available() > 0) {
     checkSerial();
   }
+}
+
+void keyPressed()
+{
 }
 
 void checkSerial()
@@ -95,7 +102,7 @@ void parseSerial(String input)
     {
       if (linesHash.add(lineHeader))
       {
-        println("new Header: "+lineHeader+"("+lines.size()+")");
+        //println("new Header: "+lineHeader+"("+lines.size()+")");
         lines.add(lineHeader);
       }
 
@@ -140,8 +147,8 @@ void parseSerial(String input)
           {
             int ix = (m+n*lineData.length);
             int jx = (m*lines.size()+n);
-            println("numN: "+lines.size()+"   n: "+n+"   numM: "+lineData.length+"   m:"+m+"  -> "+ ix +" =? "+ jx );
-            
+            //println("numN: "+lines.size()+"   n: "+n+"   numM: "+lineData.length+"   m:"+m+"  -> "+ ix +" =? "+ jx );
+
             color c = rainbowRanges.get(m).get(n).toARGB();                                   // <-- call reorders part of dataSet map ??
             CColor cc = new CColor().setBackground(color(red(c), green(c), blue(c), 200));
             //java.util.Map dataSet = (java.util.Map) dataSets.getItems();                  // <-- call reorders dataSet map ??

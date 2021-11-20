@@ -13,3 +13,30 @@ String[] matchRegex(String string, String regex) {
   }
   return matches.toArray(new String[0]);
 }
+
+
+void saveChartDataToFile(Chart theChart, String fileName)
+{
+  java.util.LinkedHashMap<java.lang.String, ChartDataSet> data = theChart.getDataSet();
+  java.util.Set<String> keys = data.keySet();
+
+  String[] lines = new String[data.size()];
+  int i=0;
+  for (String key : keys) {
+    String name = key;
+    ChartDataSet entry = data.get(key);
+    float[] values = entry.getValues();
+
+    lines[i] = name;
+    for (int j = 0; j < values.length; j++)
+    {
+      lines[i] += ";" + values[j];
+    }
+    i++;
+  }
+  saveStrings(fileName, lines);
+}
+
+String getTime() {
+  return new java.text.SimpleDateFormat("yyMMdd-HHmmss", java.util.Locale.GERMANY).format(new java.util.Date());
+}

@@ -76,8 +76,17 @@ void createGUI()
     .setBarVisible(false)
     .lock()
     ;
+    cp5.addBang("saveData")
+    .setPosition(235, 45)
+    .setSize(40,15)
+    ;
+    
 }
 
+void saveData()
+{
+  saveChartDataToFile(plotter, getTime()+"-data.csv");
+}
 
 void updateGUI()
 {
