@@ -77,7 +77,7 @@ void createGUI()
     .lock()
     ;
     cp5.addBang("saveData")
-    .setPosition(235, 45)
+    .setPosition(140, 235)
     .setSize(40,15)
     ;
     

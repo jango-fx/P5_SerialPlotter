@@ -74,6 +74,7 @@ public void draw () {
 
 void keyPressed()
 {
+  saveData();
 }
 
 void checkSerial()
