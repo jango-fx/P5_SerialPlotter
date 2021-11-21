@@ -19,7 +19,7 @@ public boolean parallel = false;
 int baudRate=115200;
 String[] baudRates = {"300", "600", "1200", "2400", "4800", "9600", "14400", "19200", "28800", "31250", "38400", "57600", "115200"};
 
-// IMU example data:
+// Example data #1
 //   IM1#OR:0.667,-0.258,-0.687,0.124
 //   IAL1#OR:0.724,-0.115,0.259,0.629
 //   IAL2#OR:0.772,0.356,-0.176,-0.497
@@ -29,11 +29,22 @@ String[] baudRates = {"300", "600", "1200", "2400", "4800", "9600", "14400", "19
 // lineDataPattern = "(?!#|,|$)-?\\d.\\d{3}" or "-?\\d+\\.?\\d*"
 // dataNamePattern = ""
 
+// Example Data #2
+//   Accel  x:  0.11  y:  -0.03  z:  -0.06
+//   Magnet  x:  -10.69  y:  -2.69  z:  -42.06
+//   Temp  C:  25
+//   Gravity  x:  -0.22  y:  1.06  z:  9.74
+//   Quat  w:  -0.7639  x:  -0.0488  y:  0.0263  z:  0.6429
+//
+// lineHeadPattern = "^\\w*";
+// lineDataPattern = "-?\\d+\\.?\\d+";
+// dataNamePattern = ""\\w(?=:)""
+
 public String lineHeadPattern = ".*(?=:)";
 Textfield lineHeadPatternField;
 public String dataNamePattern = "";
 Textfield dataNamePatternField;
-public String lineDataPattern = "-?\\d+\\.?\\d*";
+public String lineDataPattern = "-?\\d+\\.?\\d+";
 Textfield lineDataPatternField;
 
 Textlabel zeroAxis;
