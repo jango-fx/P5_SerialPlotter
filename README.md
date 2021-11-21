@@ -9,7 +9,7 @@ for  debugging and logging
 - [ ] auto scaling
 - [ ] toggling individual graphs
 - [x] recorder (save data to file)
-- [ ] transmitter (send data)
+- [ ] transmitter (send data to serial)
 - ¿ reordering data sets ?
 - ¿ tree view of regex filtering ?
 
