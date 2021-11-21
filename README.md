@@ -10,6 +10,8 @@ for  debugging and logging
 - [ ] toggling individual graphs
 - [x] recorder (save data to file)
 - [ ] transmitter (send data)
+- ¿ reordering data sets ?
+- ¿ tree view of regex filtering ?
 
 **known issues:**
 - order of datasets gets flipped 😠
