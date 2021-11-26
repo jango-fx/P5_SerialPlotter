@@ -6,7 +6,7 @@ for  debugging and logging
 **features:**
 - [x] manual scaling
 - [x] regex filter for various data formats
-- [ ] auto scaling
+- [x] auto scaling
 - [ ] toggling individual graphs
 - [x] recorder (save data to file)
 - [ ] transmitter (send data to serial)
