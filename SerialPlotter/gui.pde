@@ -1,3 +1,18 @@
+void initGUI()
+{
+  cp5 = new ControlP5(this);
+  cp5.addControllersFor(this);
+  cp5.enableShortcuts();
+  cp5.addCallback(new CallbackListener() {
+    public void controlEvent(CallbackEvent event) {
+      if (event.getAction()==ControlP5.ACTION_ENTER) {
+        event.getController().bringToFront();
+      }
+    }
+  }
+  );
+}
+
 void createGUI()
 {
   cp5.addToggle("verbose")
@@ -133,21 +148,6 @@ void updateGUI()
       .setPosition(195, map(i, 0, axisLabels.length-1, height-15, 10))
       ;
   }
-}
-
-void initGUI()
-{
-  cp5 = new ControlP5(this);
-  cp5.addControllersFor(this);
-  cp5.enableShortcuts();
-  cp5.addCallback(new CallbackListener() {
-    public void controlEvent(CallbackEvent event) {
-      if (event.getAction()==ControlP5.ACTION_ENTER) {
-        event.getController().bringToFront();
-      }
-    }
-  }
-  );
 }
 
 void setBaudRate(int n)

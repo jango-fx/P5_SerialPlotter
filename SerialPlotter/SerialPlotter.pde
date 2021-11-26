@@ -56,7 +56,6 @@ public int dataBuffer=1000;
 
 public void settings() {
   size(800, 500);
-  GlobalKeyListener.begin();
 }
 
 public void setup () {
