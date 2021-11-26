@@ -2,8 +2,8 @@ import processing.serial.*;
 import controlP5.*;
 
 int windowWidth, windowHeight;
-public boolean verbose = false;
-public boolean globalShortcutsEnabled = true;
+public boolean verbose = true;
+public boolean globalShortcutsEnabled = false;
 
 ControlP5 cp5;
 Chart plotter;
@@ -53,7 +53,7 @@ Textlabel[] axisLabels = new Textlabel[7];
 public float maxVal=1.0;
 public float minVal=-1.0;
 public int dataBuffer=1000;
-public boolean autoscale=true;
+public boolean autoscale=false;
 
 public void settings() {
   size(800, 500);
@@ -113,22 +113,10 @@ void saveData()
 
 void resetData()
 {
-  println("reset Data");
+  println("reset Data (not implemented yet)");
 }
 
-void checkSerial()
-{
-  String inString = port.readStringUntil('\n');
-
-  if (inString != null) {
-    inString = trim(inString);
-    parseSerial(inString);
-    if (verbose)
-      println("[Serial]: "+inString+"");
-  }
-}
-
-void parseSerial(String input)
+void parseData(String input)
 {
   try {
     String lineHeader = matchRegex(input, lineHeadPattern)[0];
@@ -142,10 +130,9 @@ void parseSerial(String input)
     {
       if (linesHash.add(lineHeader))
       {
-        //println("new Header: "+lineHeader+"("+lines.size()+")");
+        if (verbose) println("new Header: "+lineHeader+"("+lines.size()+")");
         lines.add(lineHeader);
       }
-
 
       String dataName = "";
       if (lineData.length == dataNames.length)
@@ -156,14 +143,13 @@ void parseSerial(String input)
         dataName = lineHeader+": "+i;
       }
       ChartDataSet set = plotter.getDataSet(dataName);
+
       float newDatum = parseFloat(lineData[i]);
 
       if (autoscale)                                                              // auto scale
       {
         cp5.getController("maxVal").setValue( max(maxVal, newDatum) );
         cp5.getController("minVal").setValue( min(minVal, newDatum) );
-        if (newDatum < minVal)
-          println("scale: "+newDatum+" > "+minVal+"/"+maxVal);
       }
 
       if (set != null)                                                             // add to existing DataSet
@@ -183,11 +169,6 @@ void parseSerial(String input)
          
          value=1, value=2            -> rainbow 1.1, 2.1
          */
-
-        //color c = getRainbowColor(dataSets.getItems().size(), 17);
-        //plotter.setColors(dataName, c);
-        //CColor cc = new CColor().setBackground(color(red(c), green(c), blue(c), 200));
-        //dataSets.getItem(dataName).put("color", cc);
 
         ArrayList<ColorList> rainbowRanges = createRainbowRanges(lines.size(), lineData.length);
 
