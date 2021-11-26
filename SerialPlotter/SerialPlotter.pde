@@ -66,8 +66,6 @@ public void setup () {
 
   surface.setResizable(true);
   registerMethod("pre", this);
-
-  println(getTime());
 }
 
 
@@ -91,11 +89,20 @@ public void draw () {
     GlobalKeyListener.pressed = false;
   }
 }
+
+void saveData()
+{
+  String portName = (String) portDropdown.getItem(int(portDropdown.getValue())).get("text");
+  portName = portName.replaceAll(".*\\.", "");
+  String fileName = getTime()+"-"+portName+"-data.csv";
+  println("saved current data to >"+fileName+"<");
+
+  saveChartDataToFile(plotter, fileName);
 }
 
-void keyPressed()
+void resetData()
 {
-  saveData();
+  println("reset Data");
 }
 
 void checkSerial()
