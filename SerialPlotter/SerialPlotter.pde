@@ -66,6 +66,8 @@ public void setup () {
 
   surface.setResizable(true);
   registerMethod("pre", this);
+
+  GlobalKeyListener.begin();
 }
 
 
@@ -87,6 +89,15 @@ public void draw () {
     if (GlobalKeyListener.key == "S") saveData();
     if (GlobalKeyListener.key == "R") resetData();
     GlobalKeyListener.pressed = false;
+  }
+}
+
+void keyReleased()
+{
+  if (!globalShortcutsEnabled)
+  {
+    if (key == 's') saveData();
+    if (key == 'r') resetData();
   }
 }
 
