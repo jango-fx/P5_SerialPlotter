@@ -5,11 +5,11 @@ for  debugging and logging
 
 **features:**
 - [x] manual scaling
-- [x] regex filter for various data formats
 - [x] auto scaling
-- [ ] toggling individual graphs
+- [x] regex filter for various data formats
 - [x] recorder (save data to file)
 - [ ] transmitter (send data to serial)
+- [ ] toggling individual graphs
 - ¿ reordering data sets ?
 - ¿ tree view of regex filtering ?
 
