@@ -50,9 +50,10 @@ Textfield lineDataPatternField;
 Textlabel zeroAxis;
 Textlabel[] axisLabels = new Textlabel[7];
 
-public float maxVal=2.5;
-public float minVal=-2.0;
+public float maxVal=1.0;
+public float minVal=-1.0;
 public int dataBuffer=1000;
+public boolean autoscale=true;
 
 public void settings() {
   size(800, 500);
@@ -155,15 +156,25 @@ void parseSerial(String input)
         dataName = lineHeader+": "+i;
       }
       ChartDataSet set = plotter.getDataSet(dataName);
-      if (set != null)
+      float newDatum = parseFloat(lineData[i]);
+
+      if (autoscale)                                                              // auto scale
       {
-        plotter.push(dataName, parseFloat(lineData[i]));
-      } else
+        cp5.getController("maxVal").setValue( max(maxVal, newDatum) );
+        cp5.getController("minVal").setValue( min(minVal, newDatum) );
+        if (newDatum < minVal)
+          println("scale: "+newDatum+" > "+minVal+"/"+maxVal);
+      }
+
+      if (set != null)                                                             // add to existing DataSet
+      {
+        plotter.push(dataName, newDatum);
+      } else                                                                       // create new DataSet
       {
         plotter.addDataSet(dataName);
         dataSets.addItem(dataName, 0);
         plotter.setData(dataName, new float[dataBuffer]);
-        plotter.push(dataName, parseFloat(lineData[i]));
+        plotter.push(dataName, newDatum);
 
         /* UPDATE COLORS */
         /*   colormapping:

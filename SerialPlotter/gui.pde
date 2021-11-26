@@ -90,7 +90,15 @@ void createGUI()
     .setValue(dataBuffer)
     .setRange(1, 1000)
     .setMultiplier(-1)
+    .setLabel("buffer")
     ;
+  cp5.addToggle("autoscale")
+    .setPosition(55, 275)
+    .setSize(40, 15)
+    .setValue(autoscale)
+    .setLabel("scale")
+    ;
+
   cp5.addBang("resetData")
     .setPosition(100, 275)
     .setSize(40, 15)
