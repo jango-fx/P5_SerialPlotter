@@ -3,7 +3,7 @@ import controlP5.*;
 
 int windowWidth, windowHeight;
 public boolean verbose = false;
-
+public boolean globalShortcutsEnabled = true;
 
 ControlP5 cp5;
 Chart plotter;
@@ -56,6 +56,7 @@ public int dataBuffer=1000;
 
 public void settings() {
   size(800, 500);
+  GlobalKeyListener.begin();
 }
 
 public void setup () {
@@ -84,6 +85,12 @@ public void draw () {
   if ( !parallel && port != null && port.available() > 0) {
     checkSerial();
   }
+  if (GlobalKeyListener.pressed && globalShortcutsEnabled) {
+    if (GlobalKeyListener.key == "S") saveData();
+    if (GlobalKeyListener.key == "R") resetData();
+    GlobalKeyListener.pressed = false;
+  }
+}
 }
 
 void keyPressed()

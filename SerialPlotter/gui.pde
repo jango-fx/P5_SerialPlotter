@@ -1,5 +1,11 @@
 void createGUI()
 {
+  cp5.addToggle("globalShortcutsEnabled")
+    .setPosition(55, 10)
+    .setSize(40, 15)
+    .setLabel("global shortcuts")
+    .setValue(globalShortcutsEnabled)
+    ;
   plotter = cp5.addChart("Serial Plotter")
     .setPosition(190, 10)
     .setView(Chart.LINE)
