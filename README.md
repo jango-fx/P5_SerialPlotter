@@ -16,7 +16,9 @@ for  debugging and logging
 **known issues:**
 - order of datasets gets flipped 😠
 
-
-made with [Processing](https://github.com/processing/processing) 
-
 ![](screen.png)
+
+---
+made with [Processing](https://github.com/processing/processing)  
++ [controlP5](https://github.com/sojamo/controlp5)
++ [jnativehook](https://github.com/kwhat/jnativehook)
