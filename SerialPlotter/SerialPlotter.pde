@@ -2,7 +2,7 @@ import processing.serial.*;
 import controlP5.*;
 
 int windowWidth, windowHeight;
-public boolean verbose = true;
+public boolean verbose = false;
 public boolean globalShortcutsEnabled = false;
 
 ControlP5 cp5;
@@ -86,8 +86,9 @@ public void draw () {
     checkSerial();
   }
   if (GlobalKeyListener.pressed && globalShortcutsEnabled) {
+    println(GlobalKeyListener.keyCode);
     if (GlobalKeyListener.key == "S") saveData();
-    if (GlobalKeyListener.key == "R") resetData();
+    if (GlobalKeyListener.keyCode == 57) resetData();
     GlobalKeyListener.pressed = false;
   }
 }
@@ -113,7 +114,14 @@ void saveData()
 
 void resetData()
 {
-  println("reset Data (not implemented yet)");
+  java.util.LinkedHashMap<java.lang.String, ChartDataSet> data = plotter.getDataSet();
+  java.util.Set<String> keys = data.keySet();
+  for (String key : keys) {
+    ChartDataSet entry = data.get(key);
+    float[] values = entry.getValues();
+    plotter.setData(key, new float[dataBuffer]);
+  }
+  println("reset data");
 }
 
 void parseData(String input)

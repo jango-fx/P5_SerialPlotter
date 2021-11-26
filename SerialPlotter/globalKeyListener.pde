@@ -6,6 +6,7 @@
 static public class GlobalKeyListener implements NativeKeyListener {
   static boolean pressed = false;
   static String key;
+  static int keyCode;
 
   static public void begin()
   {
@@ -24,7 +25,9 @@ static public class GlobalKeyListener implements NativeKeyListener {
 
   public void nativeKeyPressed(NativeKeyEvent e) {
     //System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+    //System.out.println("Key Pressed: " + e.getKeyCode());
     key = NativeKeyEvent.getKeyText(e.getKeyCode());
+    keyCode = e.getKeyCode();
     pressed = true;
 
     if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
@@ -40,6 +43,7 @@ static public class GlobalKeyListener implements NativeKeyListener {
   public void nativeKeyReleased(NativeKeyEvent e) {
     //System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
     key = NativeKeyEvent.getKeyText(e.getKeyCode());
+    keyCode = e.getKeyCode();
     pressed = false;
   }
 

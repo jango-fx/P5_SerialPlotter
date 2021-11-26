@@ -15,6 +15,15 @@ void initGUI()
 
 void createGUI()
 {
+  plotter = cp5.addChart("Serial Plotter")
+    .setPosition(190, 10)
+    .setView(Chart.LINE)
+    .setStrokeWeight(1.5f)
+    .setColorCaptionLabel(color(40))
+    .setColorBackground(color(120, 200, 255, 50))
+    ;
+    
+    
   cp5.addToggle("verbose")
     .setPosition(10, 10)
     .setSize(40, 15)
@@ -25,13 +34,6 @@ void createGUI()
     .setSize(40, 15)
     .setLabel("global shortcuts")
     .setValue(globalShortcutsEnabled)
-    ;
-  plotter = cp5.addChart("Serial Plotter")
-    .setPosition(190, 10)
-    .setView(Chart.LINE)
-    .setStrokeWeight(1.5f)
-    .setColorCaptionLabel(color(40))
-    .setColorBackground(color(120, 200, 255, 50))
     ;
   portDropdown = cp5.addScrollableList("setSerialPort")
     .setPosition(10, 45)
@@ -88,7 +90,8 @@ void createGUI()
     .setPosition(10, 275)
     .setSize(40, 15)
     .setValue(dataBuffer)
-    .setRange(1, 1000)
+    .setMin(2)
+    //.setRange(1, 1000)
     .setMultiplier(-1)
     .setLabel("buffer")
     ;
@@ -133,11 +136,12 @@ void updateGUI()
   minVal = (float) cp5.getController("minVal").getValue();
   maxVal = (float) cp5.getController("maxVal").getValue();
   dataBuffer = (int) cp5.getController("dataBuffer").getValue();
+  globalShortcutsEnabled = ((Toggle) cp5.getController("globalShortcutsEnabled")).getBooleanValue();
 
   plotter
     .setSize(width-195, height-15)
     .setRange(minVal, maxVal)
-    .setResolution(100);
+    //.setResolution(dataBuffer);
   ;
 
   dataSets.open();
