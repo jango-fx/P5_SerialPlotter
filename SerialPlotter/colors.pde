@@ -1,6 +1,5 @@
 import toxi.color.*;
 
-
 ArrayList<ColorList> createRainbowRanges(int n, int m)
 {
   ColorList list = createRainbow(n);
@@ -9,7 +8,7 @@ ArrayList<ColorList> createRainbowRanges(int n, int m)
 
 color getRainbowColor(int i, int n)
 {
-  return createRainbow(n).get(i).toARGB();
+  return createRainbow(n).get(i%n).toARGB();
 }
 
 ArrayList<ColorList> createColorRanges(ColorList list, ColorRange range, int n)
@@ -44,6 +43,7 @@ ColorList createRainbow(int n)
 
 
 /* deprecated */
+/*
 public int getRainbowColor(int i)
 {
   int red           = color(235, 50, 35);
@@ -63,3 +63,4 @@ public int getRainbowColor(int i)
   int[] rainbow = {red, green, blue, yellow, bluegreen, orange, redorange, yelloworange, yellowgreen, blueviolet, violet, redviolet};
   return rainbow[i%12];
 }
+*/
