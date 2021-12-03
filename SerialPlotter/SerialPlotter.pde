@@ -20,10 +20,10 @@ int baudRate=115200;
 String[] baudRates = {"300", "600", "1200", "2400", "4800", "9600", "14400", "19200", "28800", "31250", "38400", "57600", "115200"};
 
 Textfield lineHeadPatternField;
-Textfield dataNamePatternField;
+Textfield tupleNamePatternField;
 Textfield lineDataPatternField;
 public String lineHeadPattern = "^\\w*";
-public String dataNamePattern = "\\w+(?=:)"
+public String tupleNamePattern = "\\w+(?=:)";
 public String lineDataPattern = "-?\\d+\\.?\\d+";
 
 Textlabel zeroAxis;
