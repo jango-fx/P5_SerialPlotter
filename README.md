@@ -39,7 +39,7 @@ All of those can be filtered for by RegEx patterns.
 **Patterns**:
 ```java
 lineHeadPattern = "^\\w*";
-dataNamePattern = "\\w+(?=:)";
+tupleNamePattern = "\\w+(?=:)";
 lineDataPattern = "-?\\d+\\.?\\d+";
 ```
 
