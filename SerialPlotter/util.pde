@@ -4,8 +4,8 @@ void checkSerial()
 
   if (inString != null) {
     inString = trim(inString);
-    parseData(inString);
     if (verbose) println("[Serial]: "+inString+"");
+    parseData(inString);
   }
 }
 

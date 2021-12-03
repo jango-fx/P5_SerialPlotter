@@ -11,7 +11,7 @@ ScrollableList baudDropdown;
 ScrollableList portDropdown;
 ScrollableList dataSets;
 
-ArrayList<String> lines = new ArrayList<String>();
+HashMap<String, Integer> lines = new HashMap<String, Integer>();
 java.util.LinkedHashSet<String> linesHash = new java.util.LinkedHashSet<String>();
 
 Serial port;
@@ -108,73 +108,102 @@ void parseData(String input)
   try {
     String lineHeader = matchRegex(input, lineHeadPattern)[0];
     input = input.replace(lineHeader, "");
-    String[] lineData = matchRegex(input, lineDataPattern);
-    String[] dataNames = matchRegex(input, dataNamePattern);
+    String[] tuplesNames = matchRegex(input, tupleNamePattern);
 
+    String dataValuesPattern = "(?<="+tupleNamePattern+").+?(?="+tupleNamePattern+"|$)";
+    String[] tuplesStrings = matchRegex(input, dataValuesPattern);
 
-
-    for (int i = 0; i < lineData.length; ++i)
+    String lineName = lineHeader;//+theTupleName;
+    if (linesHash.add(lineName))
     {
-      if (linesHash.add(lineHeader))
+      if (verbose) println("[New Header]: "+lineHeader);
+      lines.put(lineName, 0);
+    }
+
+    for (int tupleIndex = 0; tupleIndex < tuplesStrings.length; tupleIndex++) {
+      String theTupleName = tuplesNames[tupleIndex];
+
+      String dataValueString = tuplesStrings[tupleIndex];
+      String[] lineData = matchRegex(dataValueString, lineDataPattern);
+
+      for (int i = 0; i < lineData.length; ++i)
       {
-        if (verbose) println("new Header: "+lineHeader+"("+lines.size()+")");
-        lines.add(lineHeader);
-      }
-
-      String dataName = "";
-      if (lineData.length == dataNames.length)
-      {
-        dataName = lineHeader+": "+dataNames[i];
-      } else
-      {
-        dataName = lineHeader+": "+i;
-      }
-      ChartDataSet set = plotter.getDataSet(dataName);
-
-      float newDatum = parseFloat(lineData[i]);
-
-      if (autoscale)                                                              // auto scale
-      {
-        cp5.getController("maxVal").setValue( max(maxVal, newDatum) );
-        cp5.getController("minVal").setValue( min(minVal, newDatum) );
-      }
-
-      if (set != null)                                                             // add to existing DataSet
-      {
-        plotter.push(dataName, newDatum);
-      } else                                                                       // create new DataSet
-      {
-        plotter.addDataSet(dataName);
-        dataSets.addItem(dataName, 0);
-        plotter.setData(dataName, new float[dataBuffer]);
-        plotter.push(dataName, newDatum);
-
-        /* UPDATE COLORS */
-        /*   colormapping:
-         lineHead1: value=1, value=2 -> rainbow 1.1, 1.2
-         lineHead2: value=1, value=2 -> rainbow 2.1, 2.2
-         
-         value=1, value=2            -> rainbow 1.1, 2.1
-         */
-
-        ArrayList<ColorList> rainbowRanges = createRainbowRanges(lines.size(), lineData.length);
-
-        for (int n = 0; n < lines.size(); n++)
+        String dataName = "";
+        String index = Integer.toString(i);
+        if (lineData.length == 1) index = "";
+        if (tuplesNames.length > 0)
         {
-          for (int m = 0; m < lineData.length; m++)
-          {
-            int ix = (m+n*lineData.length);
-            int jx = (m*lines.size()+n);
-            //println("numN: "+lines.size()+"   n: "+n+"   numM: "+lineData.length+"   m:"+m+"  -> "+ ix +" =? "+ jx );
+          dataName = lineHeader+": "+theTupleName+" "+index;
+        } else
+        {
+          dataName = lineHeader+": "+index;
+        }
 
-            color c = rainbowRanges.get(m).get(n).toARGB();                                   // <-- call reorders part of dataSet map ??
-            CColor cc = new CColor().setBackground(color(red(c), green(c), blue(c), 200));
-            //java.util.Map dataSet = (java.util.Map) dataSets.getItems();                  // <-- call reorders dataSet map ??
-            java.util.Map dataSet = (java.util.Map) dataSets.getItems().get(ix);
-            dataSet.put("color", cc);
-            dataName = (String) dataSet.get("name");
-            plotter.setColors(dataName, c);
-          }
+        ChartDataSet set = plotter.getDataSet(dataName);
+
+        float newDatum = parseFloat(lineData[i]);
+
+        if (autoscale)                                                              // auto scale
+        {
+          cp5.getController("maxVal").setValue( max(maxVal, newDatum) );
+          cp5.getController("minVal").setValue( min(minVal, newDatum) );
+        }
+
+        if (set != null)                                                             // add to existing DataSet
+        {
+          plotter.push(dataName, newDatum);
+        } else                                                                       // create new DataSet
+        {
+          plotter.addDataSet(dataName);
+          dataSets.addItem(dataName, 0);
+          plotter.setData(dataName, new float[dataBuffer]);
+          plotter.push(dataName, newDatum);
+          /*
+          try {
+           // UPDATE COLORS
+           
+           //  colormapping:
+           //   lineHead1: value=1, value=2 -> rainbow 1.1, 1.2
+           //   lineHead2: value=1, value=2 -> rainbow 2.1, 2.2
+           //
+           //   value=1, value=2            -> rainbow 1.1, 2.1
+           
+           int numDataSet = dataSets.getItems().size();
+           ArrayList<ColorList> rainbowRanges = createRainbowRanges(lines.size(), lineData.length);
+           
+           printArray(lines);
+           for (int n = 0; n < lines.size(); n++)
+           {
+           int numData = numDataSet /lines.size();// lineData.length;//*tuplesStrings.length;
+           //println(tuplesStrings.length+" * "+lineData.length+" = "+numData);
+           for (int m = 0; m < numData; m++) // 7
+           {
+           int ix = (m+n*lineData.length);
+           int jx = (m*lines.size()+n);
+           //println("numN: "+lines.size()+"   n: "+n+"   numM: "+numData+"   m:"+m+"  -> "+ ix +" =? "+ jx );
+           
+           color c = rainbowRanges.get(m).get(n).toARGB();                                   // <-- call reorders part of dataSet map ??
+           CColor cc = new CColor().setBackground(color(red(c), green(c), blue(c), 200));
+           //java.util.Map dataSet = (java.util.Map) dataSets.getItems();                    // <-- call reorders dataSet map ??
+           java.util.Map dataSet = (java.util.Map) dataSets.getItems().get(ix);
+           dataSet.put("color", cc);
+           dataName = (String) dataSet.get("name");
+           plotter.setColors(dataName, c);
+           }
+           }
+           }
+           catch(Exception e) {
+           println(e);
+           }
+           */
+           
+          colorMode(HSB, 360, 100, 100, 100);    
+          int ic = plotter.size(); //dataSets.getItems().size(); // rainbow.size()
+          color c = getRainbowColor(ic, 20); //rainbow.get(int(ic)).toARGB();//color(random(360), 100, 100);
+          plotter.setColors(dataName, c);
+          CColor cc = new CColor().setBackground(color(hue(c), saturation(c), brightness(int(c*0.9))));
+          dataSets.getItem(dataName).put("color", cc);
+
         }
 
         dataSets.setSize(dataSets.getWidth(), 15*(dataSets.getItems().size()+1));
