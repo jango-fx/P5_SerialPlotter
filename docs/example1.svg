@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 620 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g id="ArtBoard1" transform="matrix(0.998235,0,0,1.01148,0,0)">
+        <rect x="0" y="0" width="621.096" height="69.205" style="fill:none;"/>
+        <g transform="matrix(1,0,0,1,0,-0.726644)">
+            <g transform="matrix(1.00177,0,0,0.98865,-194.27,-84.1509)">
+                <text x="201.489px" y="127.838px" style="font-family:'RobotoMono-Light', 'Roboto Mono', monospace;font-size:12px;">IMU_RAW#GY:0.070,0.070,-0.070#AC:0.032,0.028,0.971#MG:-0.083020,-0.599340,-0.779800</text>
+            </g>
+            <g transform="matrix(1.00177,0,0,0.98865,17.376,19.5251)">
+                <text x="0px" y="3.75px" style="font-family:'RobotoMono-Bold', 'Roboto Mono', monospace;font-weight:700;font-size:5px;fill:rgb(34,170,255);">lineHeader</text>
+            </g>
+            <g transform="matrix(1.00177,0,0,0.98865,60.5259,19.5251)">
+                <text x="0px" y="3.75px" style="font-family:'RobotoMono-Bold', 'Roboto Mono', monospace;font-weight:700;font-size:5px;fill:rgb(255,166,34);">dataName</text>
+            </g>
+            <g transform="matrix(1.00177,0,0,0.98865,218.595,19.5251)">
+                <text x="0px" y="3.75px" style="font-family:'RobotoMono-Bold', 'Roboto Mono', monospace;font-weight:700;font-size:5px;fill:rgb(255,166,34);">dataName</text>
+            </g>
+            <g transform="matrix(1.00177,0,0,0.98865,370.569,19.5251)">
+                <text x="0px" y="3.75px" style="font-family:'RobotoMono-Bold', 'Roboto Mono', monospace;font-weight:700;font-size:5px;fill:rgb(255,166,34);">dataName</text>
+            </g>
+            <g transform="matrix(1.00177,0,0,0.98865,136.411,19.5251)">
+                <text x="0px" y="3.75px" style="font-family:'RobotoMono-Bold', 'Roboto Mono', monospace;font-weight:700;font-size:5px;fill:rgb(255,34,122);">lineData</text>
+            </g>
+            <g transform="matrix(1.00177,0,0,0.98865,290.786,19.5251)">
+                <text x="0px" y="3.75px" style="font-family:'RobotoMono-Bold', 'Roboto Mono', monospace;font-weight:700;font-size:5px;fill:rgb(255,34,122);">lineData</text>
+            </g>
+            <g transform="matrix(1.00177,0,0,0.98865,485.837,19.5251)">
+                <text x="0px" y="3.75px" style="font-family:'RobotoMono-Bold', 'Roboto Mono', monospace;font-weight:700;font-size:5px;fill:rgb(255,34,122);">lineData</text>
+            </g>
+            <g transform="matrix(0.644362,0,0,0.53737,27.433,-39.9636)">
+                <path d="M59.791,131.842L59.791,122.681L81.624,122.681L81.624,131.842" style="fill:none;stroke:rgb(255,166,34);stroke-width:1.68px;"/>
+            </g>
+            <g transform="matrix(0.644362,0,0,0.53737,185.502,-39.9636)">
+                <path d="M59.791,131.842L59.791,122.681L81.624,122.681L81.624,131.842" style="fill:none;stroke:rgb(255,166,34);stroke-width:1.68px;"/>
+            </g>
+            <g transform="matrix(0.644362,0,0,0.53737,337.476,-39.9636)">
+                <path d="M59.791,131.842L59.791,122.681L81.624,122.681L81.624,131.842" style="fill:none;stroke:rgb(255,166,34);stroke-width:1.68px;"/>
+            </g>
+            <g transform="matrix(5.9002,0,0,0.53737,-265.485,-39.9636)">
+                <path d="M59.791,131.842L59.791,122.681L81.624,122.681L81.624,131.842" style="fill:none;stroke:rgb(255,34,122);stroke-width:0.24px;"/>
+            </g>
+            <g transform="matrix(5.47657,0,0,0.53737,-81.1552,-39.9636)">
+                <path d="M59.791,131.842L59.791,122.681L81.624,122.681L81.624,131.842" style="fill:none;stroke:rgb(255,34,122);stroke-width:0.26px;"/>
+            </g>
+            <g transform="matrix(9.56343,0,0,0.53737,-175.075,-39.9636)">
+                <path d="M59.791,131.842L59.791,122.681L81.624,122.681L81.624,131.842" style="fill:none;stroke:rgb(255,34,122);stroke-width:0.15px;"/>
+            </g>
+            <g transform="matrix(2.3215,0,0,0.53737,-131.229,-39.9636)">
+                <path d="M59.791,131.842L59.791,122.681L81.624,122.681L81.624,131.842" style="fill:none;stroke:rgb(34,170,255);stroke-width:0.59px;"/>
+            </g>
+        </g>
+    </g>
+</svg>
